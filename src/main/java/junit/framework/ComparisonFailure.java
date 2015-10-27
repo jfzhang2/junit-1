@@ -2,13 +2,17 @@ package junit.framework;
 
 /**
  * Thrown when an assert equals for Strings failed.
- *
+ * 当字符串比对相等异常的断言异常抛出
  * Inspired by a patch from Alex Chaffee mailto:alex@purpletech.com
  */
 public class ComparisonFailure extends AssertionFailedError {
+    //默认最大的字符串的比对的长度是20
     private static final int MAX_CONTEXT_LENGTH = 20;
     private static final long serialVersionUID = 1L;
 
+    //维护两个成员变量
+    //分别是料想的字符串
+    //以及真实的字符串
     private String fExpected;
     private String fActual;
 
@@ -33,6 +37,7 @@ public class ComparisonFailure extends AssertionFailedError {
      */
     @Override
     public String getMessage() {
+        //ComparisonCompactor可以理解为异常信息的格式化工具类
         return new ComparisonCompactor(MAX_CONTEXT_LENGTH, fExpected, fActual).compact(super.getMessage());
     }
 
