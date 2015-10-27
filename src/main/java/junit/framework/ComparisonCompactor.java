@@ -1,33 +1,47 @@
 package junit.framework;
-
+//比较的压土机
 public class ComparisonCompactor {
 
+    //对应的是尾部的省略
     private static final String ELLIPSIS = "...";
     private static final String DELTA_END = "]";
     private static final String DELTA_START = "[";
 
+    //上下文的长度
     private int fContextLength;
+    //期望的字符串
     private String fExpected;
+    //实际的字符串
     private String fActual;
+    
+    //失败提示语的前缀
     private int fPrefix;
+    //成功提示语的后缀
     private int fSuffix;
 
+    //构造函数中提供必须的几个参数
     public ComparisonCompactor(int contextLength, String expected, String actual) {
         fContextLength = contextLength;
         fExpected = expected;
         fActual = actual;
     }
 
+    //进行压缩
     @SuppressWarnings("deprecation")
     public String compact(String message) {
+        //无论是为空  还是相等 对相关的信息进行格式化抛出
         if (fExpected == null || fActual == null || areStringsEqual()) {
             return Assert.format(message, fExpected, fActual);
         }
 
+        //找到一般性的前缀
         findCommonPrefix();
+        //找到一般性的后缀
         findCommonSuffix();
+        //获取压缩后的
         String expected = compactString(fExpected);
         String actual = compactString(fActual);
+        //再对断言进行描述处理
         return Assert.format(message, expected, actual);
     }
 
