@@ -1,8 +1,10 @@
 package junit.framework;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
 
 /**
  * A test case defines the fixture to run multiple tests. To define a test case<br/>
@@ -73,16 +75,20 @@ import java.lang.reflect.Modifier;
  * @see TestResult
  * @see TestSuite
  */
+//继承Assert 同时实现了Test的接口  是一个抽象类
 @SuppressWarnings("deprecation")
 public abstract class TestCase extends Assert implements Test {
     /**
      * the name of the test case
+     * 测试用例的名称
      */
     private String fName;
 
     /**
      * No-arg constructor to enable serialization. This method
      * is not intended to be used by mere mortals without calling setName().
+     * 无参构造函数使得序列化可用。
+     * 这个方法的目的不是去被使用通过少数几个而不调用setName方法
      */
     public TestCase() {
         fName = null;
@@ -90,6 +96,7 @@ public abstract class TestCase extends Assert implements Test {
 
     /**
      * Constructs a test case with the given name.
+     * 用指定的名称来构造一个测试用例
      */
     public TestCase(String name) {
         fName = name;
@@ -104,7 +111,7 @@ public abstract class TestCase extends Assert implements Test {
 
     /**
      * Creates a default TestResult object
-     *
+     * 创建一个默认的TestResult的对象
      * @see TestResult
      */
     protected TestResult createResult() {
@@ -114,7 +121,8 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * A convenience method to run this test, collecting the results with a
      * default TestResult object.
-     *
+     * 一个非常简单的方法去运行这个Test的对象。收集这个结果，用一个
+     * 默认的TestResult的对象
      * @see TestResult
      */
     public TestResult run() {
@@ -132,18 +140,21 @@ public abstract class TestCase extends Assert implements Test {
 
     /**
      * Runs the bare test sequence.
-     *
+     * 运行这个光秃秃的测试序列
      * @throws Throwable if any exception is thrown
      */
     public void runBare() throws Throwable {
         Throwable exception = null;
+        //建立相关的状态
         setUp();
         try {
+            //开始运行测试序列
             runTest();
         } catch (Throwable running) {
             exception = running;
         } finally {
             try {
+                //销毁固定的状态d
                 tearDown();
             } catch (Throwable tearingDown) {
                 if (exception == null) exception = tearingDown;
@@ -154,10 +165,12 @@ public abstract class TestCase extends Assert implements Test {
 
     /**
      * Override to run the test and assert its state.
-     *
+     * 重载去运行这个Test的对象，并且断言它的状态
      * @throws Throwable if any exception is thrown
      */
     protected void runTest() throws Throwable {
+        //有些虚拟机奔溃
+        //当调用getMethod的方法
         assertNotNull("TestCase.fName cannot be null", fName); // Some VMs crash when calling getMethod(null,null);
         Method runMethod = null;
         try {
@@ -166,6 +179,18 @@ public abstract class TestCase extends Assert implements Test {
             // methods of this class but excludes the
             // inherited ones.
             runMethod = getClass().getMethod(fName, (Class[]) null);
+            /**
+             * throws NoSuchMethodException, SecurityException {
+               be very careful not to change the stack depth of this
+               checkMemberAccess call for security reasons
+               see java.lang.SecurityManager.checkMemberAccess
+               checkMemberAccess(Member.PUBLIC, Reflection.getCallerClass(), true);
+               Method method = getMethod0(name, parameterTypes);
+               if (method == null) {
+               throw new NoSuchMethodException(getName() + "." + name + argumentTypesToString(parameterTypes));
+               }
+               return method;
+             */
         } catch (NoSuchMethodException e) {
             fail("Method \"" + fName + "\" not found");
         }
@@ -174,6 +199,7 @@ public abstract class TestCase extends Assert implements Test {
         }
 
         try {
+            //触发指定的对象的这个指定方法名运行
             runMethod.invoke(this);
         } catch (InvocationTargetException e) {
             e.fillInStackTrace();
@@ -470,6 +496,8 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
+     * 建立这个固定的状态 打开一个网络的链接
+     * 这个方法在一个Test执行之前调用
      */
     protected void setUp() throws Exception {
     }
@@ -477,6 +505,7 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * Tears down the fixture, for example, close a network connection.
      * This method is called after a test is executed.
+     * 销毁固定的状态 比如关闭网络的链接
      */
     protected void tearDown() throws Exception {
     }

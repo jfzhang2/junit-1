@@ -22,12 +22,16 @@ import junit.framework.TestSuite;
 
 /**
  * Base class for all test runners.
+ * 对于所有的runner的基类
  * This class was born live on stage in Sardinia during XP2000.
  */
+//实现了TestListener的接口
 public abstract class BaseTestRunner implements TestListener {
     public static final String SUITE_METHODNAME = "suite";
 
+    //运行着的相关的属性的配置
     private static Properties fPreferences;
+    //定义最大的消息的长度
     static int fgMaxMessageLength = 500;
     static boolean fgFilterStack = true;
     boolean fLoading = true;
@@ -80,6 +84,7 @@ public abstract class BaseTestRunner implements TestListener {
 
     // TestRunListener implementation
 
+    //结束  开始  失败  需要被重写的方法
     public abstract void testStarted(String testName);
 
     public abstract void testEnded(String testName);
@@ -117,6 +122,7 @@ public abstract class BaseTestRunner implements TestListener {
             clearStatus();
             return new TestSuite(testClass);
         }
+        //如果方法不是静态方法
         if (!Modifier.isStatic(suiteMethod.getModifiers())) {
             runFailed("Suite() method must be static");
             return null;
@@ -141,6 +147,7 @@ public abstract class BaseTestRunner implements TestListener {
 
     /**
      * Returns the formatted string of the elapsed time.
+     * 返回的流逝的时间的格式化
      */
     public String elapsedTimeAsString(long runTime) {
         return NumberFormat.getInstance().format((double) runTime / 1000);
@@ -149,6 +156,7 @@ public abstract class BaseTestRunner implements TestListener {
     /**
      * Processes the command line arguments and
      * returns the name of the suite class to run or null
+     * 处理命令行的参数
      */
     protected String processArguments(String[] args) {
         String suiteName = null;
@@ -262,6 +270,7 @@ public abstract class BaseTestRunner implements TestListener {
 
     /**
      * Returns a filtered stack trace
+     * 返回一个过滤器的堆栈
      */
     public static String getFilteredTrace(Throwable e) {
         StringWriter stringWriter = new StringWriter();

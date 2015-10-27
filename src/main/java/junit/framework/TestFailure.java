@@ -7,11 +7,13 @@ import java.io.StringWriter;
 /**
  * A {@code TestFailure} collects a failed test together with
  * the caught exception.
- *
+ * 伴随着捕捉的异常，收集一个失败的Test的对象
  * @see TestResult
  */
 public class TestFailure {
+    //指定的失败的Test的对象
     protected Test fFailedTest;
+    //抛出的异常
     protected Throwable fThrownException;
 
     /**
@@ -24,6 +26,7 @@ public class TestFailure {
 
     /**
      * Gets the failed test.
+     * 获取失败的Test的对象
      */
     public Test failedTest() {
         return fFailedTest;
@@ -31,6 +34,7 @@ public class TestFailure {
 
     /**
      * Gets the thrown exception.
+     * 获取抛出的异常
      */
     public Throwable thrownException() {
         return fThrownException;
@@ -47,6 +51,7 @@ public class TestFailure {
     /**
      * Returns a String containing the stack trace of the error
      * thrown by TestFailure.
+     * 返回一个字符串  包含错误的堆栈跟踪的信息
      */
     public String trace() {
         StringWriter stringWriter = new StringWriter();

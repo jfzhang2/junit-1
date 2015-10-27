@@ -41,15 +41,18 @@ import org.junit.internal.MethodSorter;
  *
  * @see Test
  */
+//实现了Test的接口
 public class TestSuite implements Test {
 
     /**
      * ...as the moon sets over the early morning Merlin, Oregon
      * mountains, our intrepid adventurers type...
      */
+    //根据类的名称以及Class对象 创建Test的对象
     static public Test createTest(Class<?> theClass, String name) {
         Constructor<?> constructor;
         try {
+            //由Class对象创建Constructor的对象d
             constructor = getTestConstructor(theClass);
         } catch (NoSuchMethodException e) {
             return warning("Class " + theClass.getName() + " has no public constructor TestCase(String name) or TestCase()");
@@ -59,6 +62,7 @@ public class TestSuite implements Test {
             if (constructor.getParameterTypes().length == 0) {
                 test = constructor.newInstance(new Object[0]);
                 if (test instanceof TestCase) {
+                    //给测试用例设置名称
                     ((TestCase) test).setName(name);
                 }
             } else {
@@ -89,6 +93,7 @@ public class TestSuite implements Test {
 
     /**
      * Returns a test which will fail and log a warning message.
+     * 返回一个Test 将会失败 并提供一个Log日志的信息
      */
     public static Test warning(final String message) {
         return new TestCase("warning") {
@@ -111,6 +116,7 @@ public class TestSuite implements Test {
 
     private String fName;
 
+    //对应的是Test的堆栈
     private Vector<Test> fTests = new Vector<Test>(10); // Cannot convert this to List because it is used directly by some test runners
 
     /**
@@ -132,12 +138,14 @@ public class TestSuite implements Test {
     private void addTestsFromTestCase(final Class<?> theClass) {
         fName = theClass.getName();
         try {
+            //避免生成多个错误的信息
             getTestConstructor(theClass); // Avoid generating multiple error messages
         } catch (NoSuchMethodException e) {
             addTest(warning("Class " + theClass.getName() + " has no public constructor TestCase(String name) or TestCase()"));
             return;
         }
 
+        //判断类是否是public
         if (!Modifier.isPublic(theClass.getModifiers())) {
             addTest(warning("Class " + theClass.getName() + " is not public"));
             return;
@@ -175,7 +183,7 @@ public class TestSuite implements Test {
 
     /**
      * Constructs a TestSuite from the given array of classes.
-     *
+     * 由给定的Class的数组来构建一个TestSuite的对象
      * @param classes {@link TestCase}s
      */
     public TestSuite(Class<?>... classes) {
@@ -218,6 +226,7 @@ public class TestSuite implements Test {
 
     /**
      * Counts the number of test cases that will be run by this test.
+     * 对测试用例进行计数
      */
     public int countTestCases() {
         int count = 0;

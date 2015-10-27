@@ -45,6 +45,7 @@ public class JUnit4TestAdapter implements Test, Filterable, Sortable, Describabl
     }
 
     // reflective interface for Eclipse
+    //获取所有的测试用例的列表
     public List<Test> getTests() {
         return fCache.asTestList(getDescription());
     }
