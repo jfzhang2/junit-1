@@ -2,22 +2,28 @@ package junit.framework;
 
 /**
  * A set of assert methods.  Messages are only displayed when an assert fails.
- *
+ * 这里面包含了一整套的断言的方法。消息仅仅只会分发当一个断言失败的时候
  * @deprecated Please use {@link org.junit.Assert} instead.
  */
 @Deprecated
 public class Assert {
     /**
      * Protect constructor since it is a static only class
+     * 保护类型的构造函数，因为这只是一个静态的功能的类
+     * 大多数都是作为静态方法使用
      */
     protected Assert() {
     }
 
     /**
      * Asserts that a condition is true. If it isn't it throws
+     * 断言这个条件是正确的。但是如果结果却不是正确的，
+     * 用给定的结果去抛出一个断言异常错误的信息
      * an AssertionFailedError with the given message.
      */
     static public void assertTrue(String message, boolean condition) {
+        //如果条件不成立
+        //回调出错的信息的方法
         if (!condition) {
             fail(message);
         }
@@ -25,6 +31,7 @@ public class Assert {
 
     /**
      * Asserts that a condition is true. If it isn't it throws
+     * 断言一个条件是正确的。如果不是正确的，抛出不含错误的信息的断言的异常
      * an AssertionFailedError.
      */
     static public void assertTrue(boolean condition) {
@@ -33,6 +40,7 @@ public class Assert {
 
     /**
      * Asserts that a condition is false. If it isn't it throws
+     * 断言一个条件是错误的。如果不是，抛出一个给定异常信息描述的断言的异常
      * an AssertionFailedError with the given message.
      */
     static public void assertFalse(String message, boolean condition) {
@@ -49,8 +57,10 @@ public class Assert {
 
     /**
      * Fails a test with the given message.
+     * 用给定的一个消息使得一个单元测试失败
      */
     static public void fail(String message) {
+        //判断给定的参数的message的对象是否为空
         if (message == null) {
             throw new AssertionFailedError();
         }
@@ -66,9 +76,12 @@ public class Assert {
 
     /**
      * Asserts that two objects are equal. If they are not
+     * 断言两个对象是相等的
      * an AssertionFailedError is thrown with the given message.
+     * 如果不相等，同样给出异常的信息
      */
     static public void assertEquals(String message, Object expected, Object actual) {
+        //如果都为空的对象 注解return 
         if (expected == null && actual == null) {
             return;
         }
@@ -88,6 +101,7 @@ public class Assert {
 
     /**
      * Asserts that two Strings are equal.
+     * 断言两个字符串对象是相等的
      */
     static public void assertEquals(String message, String expected, String actual) {
         if (expected == null && actual == null) {
@@ -118,6 +132,10 @@ public class Assert {
         }
         if (!(Math.abs(expected - actual) <= delta)) {
             failNotEquals(message, new Double(expected), new Double(actual));
+        } else {
+            //如果在指定的误差范围以内，同样是直接return
+            //接着运行后面的任务
+            return;
         }
     }
 
