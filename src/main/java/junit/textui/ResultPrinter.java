@@ -10,8 +10,10 @@ import junit.framework.TestFailure;
 import junit.framework.TestListener;
 import junit.framework.TestResult;
 import junit.runner.BaseTestRunner;
-
+//定义结果的打印者
+//实现了TestListener这个观察者
 public class ResultPrinter implements TestListener {
+    //维护一个流的对象
     PrintStream fWriter;
     int fColumn = 0;
 
@@ -22,6 +24,7 @@ public class ResultPrinter implements TestListener {
     /* API for use by textui.TestRunner */
 
     synchronized void print(TestResult result, long runTime) {
+        //打印 头部 错误  失败 底部
         printHeader(runTime);
         printErrors(result);
         printFailures(result);
@@ -36,6 +39,7 @@ public class ResultPrinter implements TestListener {
     /* Internal methods */
 
     protected void printHeader(long runTime) {
+        //换行 时间
         getWriter().println();
         getWriter().println("Time: " + elapsedTimeAsString(runTime));
     }
@@ -129,6 +133,7 @@ public class ResultPrinter implements TestListener {
     public void startTest(Test test) {
         getWriter().print(".");
         if (fColumn++ >= 40) {
+            //默认超过40个字符  换行
             getWriter().println();
             fColumn = 0;
         }

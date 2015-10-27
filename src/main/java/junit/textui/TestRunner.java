@@ -12,10 +12,12 @@ import junit.runner.Version;
 
 /**
  * A command line based tool to run tests.
+ * 一个命令行的工具去运行Test集合对象
  * <pre>
  * java junit.textui.TestRunner [-wait] TestCaseClass
  * </pre>
  * <p>
+ * 参数是TestCase的名称
  * TestRunner expects the name of a TestCase class as argument.
  * If this class defines a static <code>suite</code> method it
  * will be invoked and the returned test is run. Otherwise all
@@ -28,8 +30,10 @@ import junit.runner.Version;
  * summary at the end.
  */
 public class TestRunner extends BaseTestRunner {
+    //单元测试运行的结果的打印
     private ResultPrinter fPrinter;
 
+    //退出的常量的定义
     public static final int SUCCESS_EXIT = 0;
     public static final int FAILURE_EXIT = 1;
     public static final int EXCEPTION_EXIT = 2;
@@ -38,6 +42,7 @@ public class TestRunner extends BaseTestRunner {
      * Constructs a TestRunner.
      */
     public TestRunner() {
+        //标准输出
         this(System.out);
     }
 
@@ -73,6 +78,8 @@ public class TestRunner extends BaseTestRunner {
      * </pre>
      */
     static public TestResult run(Test test) {
+        //构造TestRunner的对象
+        //对Test 的对象进行运行
         TestRunner runner = new TestRunner();
         return runner.doRun(test);
     }
@@ -80,6 +87,7 @@ public class TestRunner extends BaseTestRunner {
     /**
      * Runs a single test and waits until the user
      * types RETURN.
+     * 直到用户输入换行符 停止
      */
     static public void runAndWait(Test suite) {
         TestRunner aTestRunner = new TestRunner();
@@ -134,6 +142,7 @@ public class TestRunner extends BaseTestRunner {
     public static void main(String[] args) {
         TestRunner aTestRunner = new TestRunner();
         try {
+            //通过参数  获取TestResult的对象
             TestResult r = aTestRunner.start(args);
             if (!r.wasSuccessful()) {
                 System.exit(FAILURE_EXIT);
@@ -149,6 +158,7 @@ public class TestRunner extends BaseTestRunner {
      * Starts a test run. Analyzes the command line arguments and runs the given
      * test suite.
      */
+    //启动一个Test去运行。分析这个命令行的参数  运行指定的TestSuite的对象
     public TestResult start(String[] args) throws Exception {
         String testCase = "";
         String method = "";
