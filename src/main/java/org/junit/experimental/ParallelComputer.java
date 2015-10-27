@@ -10,10 +10,11 @@ import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 import org.junit.runners.model.RunnerScheduler;
-
+//并行计算 继承了Computer这个类
 public class ParallelComputer extends Computer {
+    //是否是类
     private final boolean classes;
-
+    //是否是方法
     private final boolean methods;
 
     public ParallelComputer(boolean classes, boolean methods) {
@@ -22,6 +23,7 @@ public class ParallelComputer extends Computer {
     }
 
     public static Computer classes() {
+        //创建一个默认是类的ParallelComputer的对象
         return new ParallelComputer(true, false);
     }
 
@@ -29,18 +31,24 @@ public class ParallelComputer extends Computer {
         return new ParallelComputer(false, true);
     }
 
+    //开始进行并行运行
     private static Runner parallelize(Runner runner) {
         if (runner instanceof ParentRunner) {
+            //设置调度器
             ((ParentRunner<?>) runner).setScheduler(new RunnerScheduler() {
+                //创建线程池
                 private final ExecutorService fService = Executors.newCachedThreadPool();
 
+                //进行相关的调度
                 public void schedule(Runnable childStatement) {
                     fService.submit(childStatement);
                 }
 
                 public void finished() {
                     try {
+                        //关闭线程池的调度
                         fService.shutdown();
+                        //等待终止
                         fService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
                     } catch (InterruptedException e) {
                         e.printStackTrace(System.err);

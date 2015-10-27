@@ -66,6 +66,7 @@ import java.lang.annotation.Target;
 public @interface Test {
 
     /**
+     * 默认空的异常
      * Default empty exception.
      */
     static class None extends Throwable {

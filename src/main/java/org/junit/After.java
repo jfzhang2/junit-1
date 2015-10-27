@@ -33,7 +33,12 @@ import java.lang.annotation.Target;
  * @see org.junit.Test
  * @since 4.0
  */
-
+/**
+ * 如果你分配足够的资源在一个Before的方法，你需要释放他们在这个Test运行之后。
+ * 注解一个public的方法，用After引起这个方法去运行在Test方法之后。
+ * @author apple
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface After {

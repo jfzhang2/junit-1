@@ -36,6 +36,7 @@ import java.lang.annotation.Target;
  * @see org.junit.Test
  * @since 4.0
  */
+//所有的方法被保证运行
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AfterClass {

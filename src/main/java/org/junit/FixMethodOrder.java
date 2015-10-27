@@ -9,7 +9,7 @@ import org.junit.runners.MethodSorters;
 
 /**
  * This class allows the user to choose the order of execution of the methods within a test class.
- *
+ * 这个类允许用户去选择方法的执行的顺序 在一个Test的方法的内部
  * <p>The default order of execution of JUnit tests within a class is deterministic but not predictable.
  * The order of execution is not guaranteed for Java 7 (and some previous versions), and can even change
  * from run to run, so the order of execution was changed to be deterministic (in JUnit 4.11)

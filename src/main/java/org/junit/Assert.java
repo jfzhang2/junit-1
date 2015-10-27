@@ -21,6 +21,7 @@ import org.junit.internal.InexactComparisonCriteria;
  * @see AssertionError
  * @since 4.0
  */
+//与前面的一个版本的Assert保持一致
 public class Assert {
     /**
      * Protect constructor since it is a static only class
